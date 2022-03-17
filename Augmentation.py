@@ -30,6 +30,8 @@ class Augmentation():
         # Checks
         self.list_exceptions(embed_list)
         self.list_exceptions(label_list)
+        if target is None:
+            return Exception("Target is not specified!")
 
         #Now we do the actual things
         cpy_embed_list = copy.copy(embed_list) #slightly redundant but should be too much of a problem
@@ -45,7 +47,11 @@ class Augmentation():
         augmented_sample = cpy_embed_list.copy()
         augmented_sample_label = cpy_label_list.copy()
 
-        print(f"Target list for {target} is of size {len(target_list)}, Size will increase by {len(target_list)*2}")
+        if len(target_list) < 3:
+            return Exception(" Extrapolation Not Possible. Target list is less than 3,")
+
+        #print(f"Target list for {target} is of size {len(target_list)}, Size will increase by {len(target_list)*2}")
+
         for i in range(len(target_list)):
 
             X_i = target_list[i]
@@ -57,7 +63,8 @@ class Augmentation():
             X_k = target_list[X_k_idx]
 
             # X_hat =( X_i − X_j ) + X_k
-            if lambda_ != None:
+            if lambda_ == None:
+
                 X_hat = (X_i - X_j)  + X_k
 
             else:
@@ -68,13 +75,10 @@ class Augmentation():
             augmented_sample_label.append(target)
 
 
-
-
-
         return augmented_sample, augmented_sample_label
 
 
-    def get_rand_index_from_list(self,list,no_idx):
+    def get_rand_index_from_list(self,list_,no_idx):
         """
         Get a random index from the list
         That is not no_idx
@@ -83,11 +87,17 @@ class Augmentation():
         :return: random index
         """
         while True:
-            rand_idx = random.randint(0,len(list)-1)
 
-            if rand_idx != no_idx:
+            rand_idx = random.randint(0,len(list_)-1)
 
-                return rand_idx
+            if rand_idx == no_idx:
+
+                continue
+            else:
+
+                break
+
+        return rand_idx
 
     def find_category(self,list_, list_label, target):
         """
