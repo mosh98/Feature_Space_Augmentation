@@ -1,27 +1,111 @@
 import copy
 import numpy as np
+import random
+
 
 class Augmentation():
     def __init__(self):
         pass
 
-    def linear_delta(self):
-        print("Linear Delta")
 
-        return None
+    def delta_S(self,embed_list, label_list,target = None, lambda_ = None):
+        """
+        Paper found here: https://arxiv.org/abs/1910.04176
 
-    def delta_S(self,embed_list, label_list,target = None):
+        Sample a pair of sentences (Xi, Xj) from the target category.
+        DELTAS applies deltas from the same target category.
+
+        X_hat =( Xi − Xj ) + Xk
+        Xi is sample 1, Xj is sample 2, Xk is sample 3
+
+        if lambda_ is used then we use the lambda_ value times the delta
+        X_hat =( Xi − Xj ) * λ + Xk
+
+        :param embed_list: Pass in the embedding list
+        :param label_list: Pass in the label list
+        :param target:which target category to use
+        :param lambda_: The lambda value to use
+        :return:
+        """
         # Checks
         self.list_exceptions(embed_list)
         self.list_exceptions(label_list)
-        
+
         #Now we do the actual things
-        cpy_embed_list = copy.copy(embed_list)
-        cpy_label_list = copy.copy(label_list)
+        cpy_embed_list = copy.copy(embed_list) #slightly redundant but should be too much of a problem
+        cpy_label_list = copy.copy(label_list) #slightly redundant but should be too much of a problem
         #-------------------------------------
 
 
-        return None
+        # Find the target category
+        target_list, target_categories = self.find_category(cpy_embed_list,cpy_label_list, target)
+
+
+        #copy over the original data to the augmented sample list
+        augmented_sample = cpy_embed_list.copy()
+        augmented_sample_label = cpy_label_list.copy()
+
+        print(f"Target list for {target} is of size {len(target_list)}, Size will increase by {len(target_list)*2}")
+        for i in range(len(target_list)):
+
+            X_i = target_list[i]
+
+            X_j_idx = self.get_rand_index_from_list(target_list,i)
+            X_j = target_list[X_j_idx]
+
+            X_k_idx = self.get_rand_index_from_list(target_list,X_j_idx)
+            X_k = target_list[X_k_idx]
+
+            # X_hat =( X_i − X_j ) + X_k
+            if lambda_ != None:
+                X_hat = (X_i - X_j)  + X_k
+
+            else:
+                #X_hat =( Xi − Xj ) * λ + Xk
+                X_hat = (X_i - X_j) * lambda_ + X_k
+
+            augmented_sample.append(X_hat)
+            augmented_sample_label.append(target)
+
+
+
+
+
+        return augmented_sample, augmented_sample_label
+
+
+    def get_rand_index_from_list(self,list,no_idx):
+        """
+        Get a random index from the list
+        That is not no_idx
+        :param list:
+        :param no_idx:
+        :return: random index
+        """
+        while True:
+            rand_idx = random.randint(0,len(list)-1)
+
+            if rand_idx != no_idx:
+
+                return rand_idx
+
+    def find_category(self,list_, list_label, target):
+        """
+        Find the target category in the list
+        :param list_: The list to search
+        :param target: The target category to search for
+        :return:
+        """
+
+        new_sample = []
+        new_sample_label = []
+
+        for i in range(len(list_)):
+            if list_label[i] == target:
+                new_sample.append(list_[i])
+                new_sample_label.append(list_label[i])
+
+        return new_sample, new_sample_label
 
 
     def add_noise(self, embed_list, label_list, noise_low= 0.0, nose_high= 0.1):
