@@ -6,10 +6,10 @@ They were taken from this paper: ``https://arxiv.org/abs/1910.04176``
 1. Noise injection (aka radiation therapy): this simply upsamples a given list of embeddings with random noise.
 2. Delta_S: Which takes in a given array and extrapolates data given a target label.
 
-####How To Install?
+#### How To Install?
 
 
-####How do i use them?
+#### How do i use them?
 
 
 
