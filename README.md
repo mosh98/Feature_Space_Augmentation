@@ -7,7 +7,7 @@ They were taken from this paper: ``https://arxiv.org/abs/1910.04176``
 2. Delta_S: Which takes in a given array and extrapolates data given a target label.
 
 #### How To Install?
-
+``!pip install autograde_aug``
 
 #### How do i use them?
 
@@ -25,7 +25,7 @@ ag = Augmentation.Augmentation()
 ````
 
 
-###Noise Injection:
+### Noise Injection:
 
 ```python 
 l1, l2 = ag.add_noise(list_of_embeddings, list_of_labels)
@@ -41,7 +41,7 @@ l1, l2 = ag.add_noise(list_of_embeddings, list_of_labels, noise_low= 0.0, nose_h
 
 ```
 
-###Delta_S:
+### Delta_S:
 This stems from formula
 
 ``X_hat =( Xi − Xj ) + Xk``
