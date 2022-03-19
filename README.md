@@ -59,6 +59,8 @@ DELTAS applies deltas from the same target category to another sample ``Xk``
 ```python 
  l1, l2 = ag.delta_S(list_of_embeddings, list_of_labels, target=0)
 ```
+### NEW !
+This lambda with delta_s fusion is a novel technique that has not been tested yet or introduced yet.
 
 if lambda_ is used then we use the lambda_ value times the delta
 
@@ -67,5 +69,8 @@ if lambda_ is used then we use the lambda_ value times the delta
 ```python 
  l1, l2 = ag.delta_S(list_of_embeddings, list_of_labels, target=0, lambda_= 0.3)
 ```
+
+
+
 
 More Features will be added soon. Enjoy!
