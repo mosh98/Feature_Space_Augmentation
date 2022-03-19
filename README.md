@@ -7,7 +7,7 @@ They were taken from this paper: ``https://arxiv.org/abs/1910.04176``
 2. Delta_S: Which takes in a given array and extrapolates data given a target label.
 
 #### How To Install?
-``!pip install autograde_aug``
+``!pip install autograde-aug==0.0.1``
 
 #### How do i use them?
 
@@ -46,11 +46,7 @@ This stems from formula
 
 ``X_hat =( Xi − Xj ) + Xk``
 
-``Xi is random sample 1``
-
-``Xj is random sample 2``
-
-``Xk is random sample 3``   
+``Xi is random sample 1`` ``Xj is random sample 2`` ``Xk is random sample 3``   
 
 Sample a pair of sentences ``(Xi, Xj)`` from the ``target`` category.
 
